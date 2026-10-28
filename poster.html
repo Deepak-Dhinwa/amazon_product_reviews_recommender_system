@@ -8,7 +8,9 @@
 :root { --ink:#1c1915; --muted:#5c564c; --line:#d9d1c3; --paper:#f6f1e7; --card:#fffdf8; --accent:#1F4E5F; }
 * { box-sizing:border-box; }
 body { margin:0; background:#e7e1d6; color:var(--ink); font-family:Georgia, "Iowan Old Style", serif; }
-.sheet { max-width:1100px; margin:28px auto; background:var(--paper); border:1px solid var(--line); }
+.sheet { max-width:1180px; margin:28px auto; background:var(--paper); border:1px solid var(--line); }
+.band { display:grid; grid-template-columns:1.25fr 1fr 0.9fr; border-top:1px solid var(--line); }
+.band section { padding-bottom:18px; }
 header { display:flex; justify-content:space-between; gap:24px; padding:28px 32px 18px; border-bottom:3px solid var(--accent); }
 h1 { font-size:34px; line-height:1.05; margin:0 0 8px; letter-spacing:-0.4px; }
 .claim { margin:0; font-family:"Segoe UI", sans-serif; font-size:16px; color:var(--muted); max-width:680px; }
@@ -26,7 +28,7 @@ ul { margin:0; padding-left:18px; }
 .stat span { font-family:"Segoe UI", sans-serif; font-size:12px; color:var(--muted); }
 footer { display:flex; justify-content:space-between; gap:20px; padding:16px 32px 22px; border-top:1px solid var(--line); font-family:"Segoe UI", sans-serif; font-size:14px; }
 code { font-family:Consolas, monospace; background:var(--card); border:1px solid var(--line); padding:2px 6px; }
-@media (max-width:800px) { .grid { grid-template-columns:1fr; } section { border-right:0; border-bottom:1px solid var(--line); } header, footer { display:block; } .tags { text-align:left; margin-top:12px; } }
+@media (max-width:800px) { .grid, .band { grid-template-columns:1fr; } section { border-right:0; border-bottom:1px solid var(--line); } header, footer { display:block; } .tags { text-align:left; margin-top:12px; } }
 </style>
 </head>
 <body>
@@ -44,8 +46,13 @@ code { font-family:Consolas, monospace; background:var(--card); border:1px solid
     <section><h2>Method</h2><ul><li>Collaborative filtering with Surprise SVD on the filtered rating matrix.</li><li>Compared with truncated SVD, a hybrid, and content baselines.</li><li>The app hides items the user has already reviewed and shows the top 10.</li></ul></section>
     <section><h2>Evidence</h2><div class="stat"><b>0.84</b><span>SVD RMSE</span></div><div class="stat"><b>0.94</b><span>SVD Recall@10</span></div><div class="stat"><b>10</b><span>recommendations shown</span></div></section>
   </div>
+  <div class="band">
+    <section><h2>What the result actually says</h2><ul><li>The served model is Surprise SVD. On the filtered matrix it sits near RMSE 0.84 and Recall@10 0.94.</li><li>A known user in the file is AN2FZ6SBNYDDQ. The page drops items that user already reviewed and shows ten.</li><li>The filtered table is about 370,000 reviews from the Amazon office-products 5-core set: reviewer, item, and star rating.</li></ul></section>
+    <section><h2>What it does not show</h2><ul><li>Recall@10 this high is on a sparse, filtered matrix. It is not a promise about a cold-start shopper with no ratings.</li><li>The deep model and the hybrid were worse here, so they are documented and not what the app loads.</li></ul></section>
+    <section><h2>Beside the other attempts</h2><ul><li>Truncated SVD from scikit-learn: RMSE about 4.41. The rating scale is 1–5, so that model is not usable.</li><li>A popularity-plus-SVD hybrid: Recall@10 about 0.09.</li><li>The neural recommender: validation Recall@10 about 0.024.</li></ul></section>
+  </div>
   <footer>
-    <div><h2>What came out of it</h2><ul><li>SVD is the model the app serves. The content and hybrid numbers in the README are much weaker.</li><li>A known user id in the filtered file is AN2FZ6SBNYDDQ.</li></ul></div>
+    <div><h2>Stack</h2><p>Surprise SVD, saved as svd_model.pkl, served by Streamlit. The environment is amazon_rec_sys_env.</p></div>
     <div><h2>Look at it</h2><p>From this folder run <code>.\run.ps1</code>. The page opens in the browser.</p></div>
   </footer>
 </article>
