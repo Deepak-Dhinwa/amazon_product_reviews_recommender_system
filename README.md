@@ -1,5 +1,8 @@
 # Office Products Recommender System
 
+One-page summary: open `poster.html` in a browser.
+Start: `.\run.ps1`
+
 ## **Project Overview**
 
 In this project, I built a **comprehensive recommender system pipeline** using Amazon Office Products review data. The goal was to **predict and recommend relevant products** to users based on their past interactions.
@@ -131,3 +134,15 @@ Amazon has millions of products, and users cannot browse them all. The task is t
 ## **Final Notes**
 
 This project helped me deeply understand **how industrial-scale recommender systems are built and evaluated**. From baselines to hybrid to neural models, each step added practical ML skills and insights into **real-world personalization systems**
+
+---
+
+## Run
+
+Use the existing environment in `amazon_rec_sys_env/`. The saved SVD pickle was loaded with the Surprise version in that environment.
+
+```bash
+amazon_rec_sys_env\Scripts\streamlit.exe run app.py
+```
+
+`app.py` reads `office_products_filtered.csv` and `svd_model.pkl` from this folder. A user id in the filtered file is `AN2FZ6SBNYDDQ`. The app scores items that user has not already reviewed and shows the top 10. For that user the saved model estimates 5.00 on the top items.

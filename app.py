@@ -1,10 +1,13 @@
-import streamlit as st
 import pickle
-from surprise import Dataset, Reader
+from pathlib import Path
+
 import pandas as pd
+import streamlit as st
+
+BASE_DIR = Path(__file__).resolve().parent
 
 # Loading the trained SVD model
-with open("svd_model.pkl", "rb") as f:
+with open(BASE_DIR / "svd_model.pkl", "rb") as f:
     svd = pickle.load(f)
 
 st.title("Product Recommendation System")
@@ -15,7 +18,10 @@ This app recommends products to users based on the trained Surprise SVD collabor
 # Loading dataset to map user/item IDs if needed
 @st.cache_data
 def load_data():
-    df = pd.read_csv(r"D:\projects\amazon_product_reviews_recommender_system\office_products_filtered.csv")
+    df = pd.read_csv(
+        BASE_DIR / "office_products_filtered.csv",
+        usecols=["reviewerID", "asin"],
+    )
     return df
 
 df = load_data()
